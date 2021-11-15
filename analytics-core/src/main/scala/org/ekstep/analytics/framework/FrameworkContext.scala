@@ -12,7 +12,7 @@ import org.ekstep.analytics.framework.util.HadoopFileUtil
 import org.apache.spark.util.LongAccumulator
 import org.ekstep.analytics.framework.conf.AppConf
 import org.ekstep.analytics.framework.fetcher.{AkkaHttpClient, AkkaHttpUtil, DruidDataFetcher}
-import org.ekstep.analytics.framework.storage.{S3LikeStorageConfig, S3LikeStorageService}
+import org.ekstep.analytics.framework.storage.S3LikeStorageService
 
 class FrameworkContext {
 
@@ -44,9 +44,7 @@ class FrameworkContext {
   def newStorageService(storageType : String, storageKey: String, storageSecret: String) : BaseStorageService = {
     if ("s3-like".equals(storageType)) {
       new S3LikeStorageService(
-        S3LikeStorageConfig(AppConf.getConfig("s3_like_endpoint"), storageType, AppConf.getConfig(storageKey),
-          AppConf.getConfig(storageSecret), AppConf.getConfig("s3_like_path_style_access")
-        )
+        org.sunbird.cloud.storage.factory.StorageConfig(storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret))
       )
     } else {
       StorageServiceFactory.getStorageService(org.sunbird.cloud.storage.factory.StorageConfig(storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret)))
