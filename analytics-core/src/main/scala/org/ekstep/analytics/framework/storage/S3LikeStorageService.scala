@@ -14,6 +14,7 @@ import java.util.Properties
 class S3LikeStorageService(config: StorageConfig) extends BaseStorageService {
   var overrides = new Properties()
   overrides.setProperty(S3Constants.PROPERTY_S3_VIRTUAL_HOST_BUCKETS, AppConf.getConfig("s3_like_path_style_access"))
+  overrides.setProperty("jclouds.regions", AppConf.getConfig("s3_like_region"))
 
   var context: BlobStoreContext = ContextBuilder.newBuilder("aws-s3")
     .endpoint(AppConf.getConfig("s3_like_endpoint"))
