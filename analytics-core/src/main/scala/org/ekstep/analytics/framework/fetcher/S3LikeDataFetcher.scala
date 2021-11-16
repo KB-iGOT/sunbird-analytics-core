@@ -1,7 +1,9 @@
 package org.ekstep.analytics.framework.fetcher
 
+import org.ekstep.analytics.framework.conf.AppConf
 import org.ekstep.analytics.framework.{FrameworkContext, Query}
 import org.ekstep.analytics.framework.exception.DataFetcherException
+import org.sunbird.cloud.storage.factory.{StorageConfig, StorageServiceFactory}
 
 /**
  * @author Santhosh
@@ -30,7 +32,10 @@ object S3LikeDataFetcher {
     }
     
     private def getKeys(query: Query)(implicit fc: FrameworkContext) : Array[String] = {
-        val storageService = fc.getStorageService("s3-like", "s3_like_storage_key", "s3_like_storage_secret");
+        val storageKey = AppConf.getConfig("s3_like_storage_key")
+        val storageSecret = AppConf.getConfig("s3_like_storage_secret")
+        val endpoint = AppConf.getConfig("s3_like_storage_endpoint")
+        val storageService = StorageServiceFactory.getStorageService(new StorageConfig("cephs3", storageKey, storageSecret, Option(endpoint)))
         val keys = storageService.searchObjects(getBucket(query.bucket), getPrefix(query.prefix), query.startDate, query.endDate, query.delta, query.datePattern.getOrElse("yyyy-MM-dd"))
         storageService.getPaths(getBucket(query.bucket), keys).toArray
     }

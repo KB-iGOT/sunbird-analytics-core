@@ -12,7 +12,6 @@ import org.ekstep.analytics.framework.util.HadoopFileUtil
 import org.apache.spark.util.LongAccumulator
 import org.ekstep.analytics.framework.conf.AppConf
 import org.ekstep.analytics.framework.fetcher.{AkkaHttpClient, AkkaHttpUtil, DruidDataFetcher}
-import org.ekstep.analytics.framework.storage.S3LikeStorageService
 
 class FrameworkContext {
 
@@ -41,22 +40,12 @@ class FrameworkContext {
     return fileUtil;
   }
 
-  def newStorageService(storageType : String, storageKey: String, storageSecret: String) : BaseStorageService = {
-    if ("s3-like".equals(storageType)) {
-      new S3LikeStorageService(
-        org.sunbird.cloud.storage.factory.StorageConfig(storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret))
-      )
-    } else {
-      StorageServiceFactory.getStorageService(org.sunbird.cloud.storage.factory.StorageConfig(storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret)))
-    }
-  }
-
   def getStorageService(storageType: String, storageKey: String, storageSecret: String): BaseStorageService = {
     if("local".equals(storageType)) {
       return null;
     }
     if (!storageContainers.contains(storageType + "|" + storageKey)) {
-      storageContainers.put(storageType + "|" + storageKey, newStorageService(storageType, storageKey, storageSecret));
+      storageContainers.put(storageType + "|" + storageKey, StorageServiceFactory.getStorageService(org.sunbird.cloud.storage.factory.StorageConfig(storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret))));
     }
     storageContainers.get(storageType + "|" + storageKey).get
   }
