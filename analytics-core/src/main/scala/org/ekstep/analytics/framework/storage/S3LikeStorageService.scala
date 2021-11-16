@@ -3,6 +3,7 @@ package org.ekstep.analytics.framework.storage
 import org.ekstep.analytics.framework.conf.AppConf
 import org.jclouds.ContextBuilder
 import org.jclouds.blobstore.{BlobStore, BlobStoreContext}
+import org.jclouds.s3.reference.S3Constants
 import org.sunbird.cloud.storage.BaseStorageService
 import org.sunbird.cloud.storage.Model.Blob
 import org.sunbird.cloud.storage.factory.StorageConfig
@@ -12,7 +13,7 @@ import java.util.Properties
 
 class S3LikeStorageService(config: StorageConfig) extends BaseStorageService {
   var overrides = new Properties()
-  overrides.setProperty("PROPERTY_S3_VIRTUAL_HOST_BUCKETS", AppConf.getConfig("s3_like_path_style_access"))
+  overrides.setProperty(S3Constants.PROPERTY_S3_VIRTUAL_HOST_BUCKETS, AppConf.getConfig("s3_like_path_style_access"))
 
   var context: BlobStoreContext = ContextBuilder.newBuilder("aws-s3")
     .endpoint(AppConf.getConfig("s3_like_endpoint"))
