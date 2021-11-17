@@ -40,13 +40,24 @@ class FrameworkContext {
     return fileUtil;
   }
 
+  def newStorageService(storageType: String, storageKey: String, storageSecret: String): BaseStorageService = {
+    if ("cephs3".equalsIgnoreCase(storageType)) {
+      StorageServiceFactory.getStorageService(
+        org.sunbird.cloud.storage.factory.StorageConfig(
+          storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret), Option(AppConf.getConfig("cephs3_storage_endpoint"))
+        )
+      );
+    } else {
+      StorageServiceFactory.getStorageService(org.sunbird.cloud.storage.factory.StorageConfig(storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret))));
+    }
+  }
+
   def getStorageService(storageType: String, storageKey: String, storageSecret: String): BaseStorageService = {
     if("local".equals(storageType)) {
       return null;
     }
     if (!storageContainers.contains(storageType + "|" + storageKey)) {
-      storageContainers.put(storageType + "|" + storageKey,
-        StorageServiceFactory.getStorageService(org.sunbird.cloud.storage.factory.StorageConfig(storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret))));
+      storageContainers.put(storageType + "|" + storageKey, newStorageService(storageType, storageKey, storageSecret));
     }
     storageContainers.get(storageType + "|" + storageKey).get
   }
