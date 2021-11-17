@@ -8,7 +8,7 @@ import org.sunbird.cloud.storage.factory.{StorageConfig, StorageServiceFactory}
 /**
  * @author Santhosh
  */
-object S3LikeDataFetcher {
+object CephS3DataFetcher {
 
     @throws(classOf[DataFetcherException])
     def getObjectKeys(queries: Array[Query])(implicit fc: FrameworkContext): Array[String] = {
