@@ -46,9 +46,13 @@ class FrameworkContext {
         org.sunbird.cloud.storage.factory.StorageConfig(
           storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret), Option(AppConf.getConfig("cephs3_storage_endpoint"))
         )
-      );
+      )
     } else {
-      StorageServiceFactory.getStorageService(org.sunbird.cloud.storage.factory.StorageConfig(storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret))));
+      StorageServiceFactory.getStorageService(
+        org.sunbird.cloud.storage.factory.StorageConfig(
+          storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret)
+        )
+      )
     }
   }
 
