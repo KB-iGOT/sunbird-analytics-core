@@ -3,6 +3,7 @@ package org.ekstep.analytics.framework.fetcher
 import org.ekstep.analytics.framework.conf.AppConf
 import org.ekstep.analytics.framework.{FrameworkContext, Query}
 import org.ekstep.analytics.framework.exception.DataFetcherException
+import org.ekstep.analytics.framework.storage.CephS3AStorageService
 import org.sunbird.cloud.storage.factory.{StorageConfig, StorageServiceFactory}
 
 /**
@@ -15,7 +16,7 @@ object CephS3DataFetcher {
 
         val keys = for(query <- queries) yield {
             val paths = if(query.folder.isDefined && query.endDate.isDefined && query.folder.getOrElse("false").equals("true")) {
-                Array("s3n://"+getBucket(query.bucket)+"/"+getPrefix(query.prefix) + query.endDate.get)
+                Array("s3a://" + getBucket(query.bucket) + "/" + getPrefix(query.prefix) + query.endDate.get)
             // } else if(query.creationDate.isDefined) {
                 //S3Util.searchByCreatedDate(query.bucket.get, query.prefix.get, query.creationDate.get)
             } else {
@@ -35,7 +36,7 @@ object CephS3DataFetcher {
         val storageKey = AppConf.getConfig("cephs3_storage_key")
         val storageSecret = AppConf.getConfig("cephs3_storage_secret")
         val endpoint = AppConf.getConfig("cephs3_storage_endpoint")
-        val storageService = StorageServiceFactory.getStorageService(new StorageConfig("cephs3", storageKey, storageSecret, Option(endpoint)))
+        val storageService = new CephS3AStorageService(new StorageConfig("cephs3", storageKey, storageSecret, Option(endpoint)))
         val keys = storageService.searchObjects(getBucket(query.bucket), getPrefix(query.prefix), query.startDate, query.endDate, query.delta, query.datePattern.getOrElse("yyyy-MM-dd"))
         storageService.getPaths(getBucket(query.bucket), keys).toArray
     }

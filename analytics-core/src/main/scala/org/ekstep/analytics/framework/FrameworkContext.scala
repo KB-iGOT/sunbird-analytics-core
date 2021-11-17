@@ -12,6 +12,7 @@ import org.ekstep.analytics.framework.util.HadoopFileUtil
 import org.apache.spark.util.LongAccumulator
 import org.ekstep.analytics.framework.conf.AppConf
 import org.ekstep.analytics.framework.fetcher.{AkkaHttpClient, AkkaHttpUtil, DruidDataFetcher}
+import org.ekstep.analytics.framework.storage.CephS3AStorageService
 
 class FrameworkContext {
 
@@ -42,7 +43,7 @@ class FrameworkContext {
 
   def newStorageService(storageType: String, storageKey: String, storageSecret: String): BaseStorageService = {
     if ("cephs3".equalsIgnoreCase(storageType)) {
-      StorageServiceFactory.getStorageService(
+      new CephS3AStorageService(
         org.sunbird.cloud.storage.factory.StorageConfig(
           storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret), Option(AppConf.getConfig("cephs3_storage_endpoint"))
         )

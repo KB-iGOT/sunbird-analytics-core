@@ -151,8 +151,14 @@ object CommonUtil {
 
   def setS3Conf(sc: SparkContext) = {
     JobLogger.log("Configuring S3 AccessKey& SecrateKey to SparkContext")
-    sc.hadoopConfiguration.set("fs.s3n.awsAccessKeyId", AppConf.getAwsKey());
-    sc.hadoopConfiguration.set("fs.s3n.awsSecretAccessKey", AppConf.getAwsSecret());
+    // sc.hadoopConfiguration.set("fs.s3n.awsAccessKeyId", AppConf.getAwsKey());
+    // sc.hadoopConfiguration.set("fs.s3n.awsSecretAccessKey", AppConf.getAwsSecret());
+
+    sc.hadoopConfiguration.set("fs.s3a.endpoint", AppConf.getConfig("cephs3_storage_container"))
+    sc.hadoopConfiguration.set("fs.s3a.access.key", AppConf.getStorageKey("cephs3"))
+    sc.hadoopConfiguration.set("fs.s3a.secret.key", AppConf.getStorageSecret("cephs3"))
+    sc.hadoopConfiguration.set("fs.s3a.path.style.access", "true")
+    sc.hadoopConfiguration.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
   }
 
   def setAzureConf(sc: SparkContext) = {
@@ -713,7 +719,7 @@ object CommonUtil {
   }
 
   def getS3File(bucket: String, file: String): String = {
-    "s3n://" + bucket + "/" + file;
+    "s3a://" + bucket + "/" + file;
   }
   
   def getS3FileWithoutPrefix(bucket: String, file: String): String = {
