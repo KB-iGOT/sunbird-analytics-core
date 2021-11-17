@@ -234,6 +234,10 @@
 					<groupId>org.apache.httpcomponents</groupId>
 					<artifactId>httpclient</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-aws</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
