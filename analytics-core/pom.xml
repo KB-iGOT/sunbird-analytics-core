@@ -217,7 +217,7 @@
 			<scope>provided</scope>
 		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
-		<dependency>
+		<!-- dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk</artifactId>
 			<version>1.9.40</version>
@@ -243,7 +243,7 @@
 					<artifactId>joda-time</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency -->
 		<!-- https://mvnrepository.com/artifact/org.sunbird/cloud-store-sdk -->
 		<dependency>
 			<groupId>org.sunbird</groupId>
@@ -259,12 +259,12 @@
 					<artifactId>jackson-core</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-databind</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.apache.httpcomponents</groupId>
 					<artifactId>httpclient</artifactId>
+				</exclusion>
+				<!--exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>com.typesafe</groupId>
@@ -273,7 +273,7 @@
 				<exclusion>
 					<groupId>joda-time</groupId>
 					<artifactId>joda-time</artifactId>
-				</exclusion>
+				</exclusion-->
 			</exclusions>
 		</dependency>
 		<dependency>
