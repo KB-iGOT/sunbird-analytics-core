@@ -42,7 +42,7 @@ class FrameworkContext {
   }
 
   def newStorageService(storageType: String, storageKey: String, storageSecret: String): BaseStorageService = {
-    val storageEndpoint = AppConf.getConfig("cloud_storage_endpoint")
+    val storageEndpoint = AppConf.getConfig("cloud_storage_endpoint_with_protocol")
     if ("s3".equalsIgnoreCase(storageType) && !"".equalsIgnoreCase(storageEndpoint)) {
       new CustomS3StorageService(
         org.sunbird.cloud.storage.factory.StorageConfig(
