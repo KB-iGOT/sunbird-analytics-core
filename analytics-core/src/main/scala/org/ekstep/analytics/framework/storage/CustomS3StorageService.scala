@@ -21,8 +21,8 @@ class CustomS3StorageService(config: StorageConfig) extends BaseStorageService {
 //    // .overrides(overrides)
 //    .buildView(classOf[BlobStoreContext])
 //
-
-  var context: BlobStoreContext = ContextBuilder.newBuilder("s3").endpoint(config.endPoint.get).credentials(config.storageKey, config.storageSecret).buildView(classOf[BlobStoreContext])
+  var endpoint: String = config.endPoint.get
+  var context: BlobStoreContext = ContextBuilder.newBuilder("s3").endpoint("https://" + config.endPoint.get).credentials(config.storageKey, config.storageSecret).buildView(classOf[BlobStoreContext])
   var blobStore: BlobStore = context.getBlobStore
 
   override def getPaths(container: String, objects: List[Blob]): List[String] = {
