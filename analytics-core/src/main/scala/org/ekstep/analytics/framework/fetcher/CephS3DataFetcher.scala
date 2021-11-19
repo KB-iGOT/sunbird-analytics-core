@@ -3,7 +3,7 @@ package org.ekstep.analytics.framework.fetcher
 import org.ekstep.analytics.framework.conf.AppConf
 import org.ekstep.analytics.framework.{FrameworkContext, Query}
 import org.ekstep.analytics.framework.exception.DataFetcherException
-import org.ekstep.analytics.framework.storage.CephS3AStorageService
+import org.ekstep.analytics.framework.storage.CustomS3StorageService
 import org.sunbird.cloud.storage.factory.{StorageConfig, StorageServiceFactory}
 
 /**
@@ -33,7 +33,7 @@ object CephS3DataFetcher {
     }
 
     private def getKeys(query: Query)(implicit fc: FrameworkContext) : Array[String] = {
-        val storageService = fc.getStorageService("cephs3", "cephs3_storage_key", "cephs3_storage_secret")
+        val storageService = fc.getStorageService("s3", AppConf.getConfig("storage.key.config"), AppConf.getConfig("storage.secret.config"))
         val keys = storageService.searchObjects(getBucket(query.bucket), getPrefix(query.prefix), query.startDate, query.endDate, query.delta, query.datePattern.getOrElse("yyyy-MM-dd"))
         storageService.getPaths(getBucket(query.bucket), keys).toArray
     }
