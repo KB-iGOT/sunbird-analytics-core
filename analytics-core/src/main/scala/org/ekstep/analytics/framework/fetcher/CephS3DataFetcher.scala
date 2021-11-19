@@ -31,13 +31,13 @@ object CephS3DataFetcher {
         
         keys.flatMap { x => x.map { x => x } }
     }
-    
+
     private def getKeys(query: Query)(implicit fc: FrameworkContext) : Array[String] = {
         val storageService = fc.getStorageService("cephs3", "cephs3_storage_key", "cephs3_storage_secret")
         val keys = storageService.searchObjects(getBucket(query.bucket), getPrefix(query.prefix), query.startDate, query.endDate, query.delta, query.datePattern.getOrElse("yyyy-MM-dd"))
         storageService.getPaths(getBucket(query.bucket), keys).toArray
     }
-    
+
     private def getBucket(bucket: Option[String]) : String = {
         bucket.getOrElse("prod-data-store");
     }
