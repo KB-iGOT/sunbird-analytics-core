@@ -60,10 +60,10 @@ class FrameworkContext {
 
   def getStorageService(storageType: String, storageKey: String, storageSecret: String): BaseStorageService = {
     if("local".equals(storageType)) {
-      return null;
+      return null
     }
     if (!storageContainers.contains(storageType + "|" + storageKey)) {
-      storageContainers.put(storageType + "|" + storageKey, newStorageService(storageType, storageKey, storageSecret));
+      storageContainers.put(storageType + "|" + storageKey, newStorageService(storageType, storageKey, storageSecret))
     }
     storageContainers.get(storageType + "|" + storageKey).get
   }
