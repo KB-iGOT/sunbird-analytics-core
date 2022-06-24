@@ -73,8 +73,8 @@ object KafkaEventProducer {
         close(producer);
     }
 
-    def publishEvents(events: Buffer[String], topic: String, brokerList: String, batchSize: Integer, lingerMs: Integer) = {
-        val producer = init(brokerList, batchSize, lingerMs);
+    def publishEvents(events: Buffer[String], topic: String, brokerList: String, batchSize: Integer, lingerMs: Integer, compression: String) = {
+        val producer = init(brokerList, batchSize, lingerMs, compression);
         events.foreach { event =>
             {
                 val message = new ProducerRecord[String, String](topic, null, event);
