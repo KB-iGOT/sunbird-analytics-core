@@ -82,7 +82,7 @@ object BatchJobDriver {
                 val metricEvent = getMetricJson(modelName, endDate, "SUCCESS", metrics)
                 // $COVERAGE-OFF$
                 if (AppConf.getConfig("push.metrics.kafka").toBoolean)
-                    KafkaDispatcher.dispatch(Array(metricEvent), Map("topic" -> AppConf.getConfig("metric.kafka.topic"), "brokerList" -> AppConf.getConfig("metric.kafka.broker")))
+                    KafkaDispatcher.dispatch(Array(metricEvent), Map("topic" -> AppConf.getConfig("metric.kafka.topic"), "brokerList" -> AppConf.getConfig("metric.kafka.broker"), "compression" -> AppConf.getConfigOr("metric.kafka.compression", "snappy")))
                 // $COVERAGE-ON$
 
                 JobLogger.end(modelName + " processing complete", "SUCCESS", Option(Map("model" -> model.name, "date" -> endDate, "inputEvents" -> fc.inputEventsCount.value, "outputEvents" -> result._2, "timeTaken" -> Double.box(result._1 / 1000))));
@@ -93,7 +93,7 @@ object BatchJobDriver {
                     val metricEvent = getMetricJson(modelName, endDate, "FAILED", List(Map("id" -> "input-events", "value" -> fc.inputEventsCount.value.asInstanceOf[AnyRef])))
                     // $COVERAGE-OFF$
                     if (AppConf.getConfig("push.metrics.kafka").toBoolean)
-                        KafkaDispatcher.dispatch(Array(metricEvent), Map("topic" -> AppConf.getConfig("metric.kafka.topic"), "brokerList" -> AppConf.getConfig("metric.kafka.broker")))
+                        KafkaDispatcher.dispatch(Array(metricEvent), Map("topic" -> AppConf.getConfig("metric.kafka.topic"), "brokerList" -> AppConf.getConfig("metric.kafka.broker"), "compression" -> AppConf.getConfigOr("metric.kafka.compression", "snappy")))
                     // $COVERAGE-ON$
                     ex.printStackTrace();
             }

@@ -80,7 +80,8 @@ object JobLogger {
         if (StringUtils.equalsIgnoreCase(AppConf.getConfig("log.appender.kafka.enable"), "true")) {
             val brokerList = AppConf.getConfig("log.appender.kafka.broker_host")
             val topic = AppConf.getConfig("log.appender.kafka.topic")
-            KafkaDispatcher.dispatch(Array(event), Map("brokerList" -> brokerList, "topic" -> topic))
+            val compression = AppConf.getConfigOr("log.appender.kafka.compression", "snappy")
+            KafkaDispatcher.dispatch(Array(event), Map("brokerList" -> brokerList, "topic" -> topic, "compression" -> compression))
         }
         else {
             logLevel match {

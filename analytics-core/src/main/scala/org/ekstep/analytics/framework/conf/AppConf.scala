@@ -16,6 +16,12 @@ object AppConf {
             conf.getString(key);
         else "";
     }
+
+    def getConfigOr(key: String, default: String): String = {
+        if (conf.hasPath(key))
+            conf.getString(key);
+        else default;
+    }
     
     def getConfig(): Config = {
     	return conf;
