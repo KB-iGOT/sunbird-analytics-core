@@ -6,7 +6,7 @@ import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.dstream.DStream
 import org.ekstep.analytics.framework.Level.INFO
 import org.ekstep.analytics.framework.exception.DataFetcherException
-import org.ekstep.analytics.framework.fetcher.{AzureDataFetcher, DruidDataFetcher, S3DataFetcher, CephS3DataFetcher}
+import org.ekstep.analytics.framework.fetcher.{AzureDataFetcher, DruidDataFetcher, S3DataFetcher, CephS3DataFetcher, GcloudDataFetcher}
 import org.ekstep.analytics.framework.util.{CommonUtil, JSONUtils, JobLogger}
 
 /**
@@ -25,6 +25,9 @@ object DataFetcher {
         }
         //val date = search.queries.get.last.endDate
         val keys = search.`type`.toLowerCase() match {
+            case "gcloud" =>
+                JobLogger.log("Fetching the batch data from gcs-like stores")
+                GcloudDataFetcher.getObjectKeys(search.queries.get);
             case "cephs3" =>
                 JobLogger.log("Fetching the batch data from S3-like stores")
                 CephS3DataFetcher.getObjectKeys(search.queries.get);
