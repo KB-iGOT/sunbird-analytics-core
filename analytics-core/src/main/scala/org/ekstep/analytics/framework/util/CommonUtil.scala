@@ -723,6 +723,10 @@ object CommonUtil {
   def getS3File(bucket: String, file: String): String = {
     "s3n://" + bucket + "/" + file;
   }
+
+  def getGCPFile(bucket: String, file: String): String = {
+    "gs://" + bucket + "/" + file;
+  }
   
   def getS3FileWithoutPrefix(bucket: String, file: String): String = {
     bucket + "/" + file;
