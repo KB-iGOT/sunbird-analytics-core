@@ -27,7 +27,9 @@ object GcloudDataFetcher {
   private def getKeys(query: Query)(implicit fc: FrameworkContext): Array[String] = {
     val storageService = fc.getStorageService("gcloud", "storage.key.config", "storage.secret.config")
     val keys = storageService.searchObjects(getBucket(query.bucket), getPrefix(query.prefix), query.startDate, query.endDate, query.delta, query.datePattern.getOrElse("yyyy-MM-dd"))
-    storageService.getPaths(getBucket(query.bucket), keys).toArray
+    val paths: Array[String] = storageService.getPaths(getBucket(query.bucket), keys).toArray
+    println("got path:" + paths)
+    paths
   }
 
   private def getBucket(bucket: Option[String]): String = {
