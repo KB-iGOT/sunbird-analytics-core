@@ -155,9 +155,9 @@ object CommonUtil {
   def setGcloudConf(sc: SparkContext) = {
     sc.hadoopConfiguration.set("fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem")
     sc.hadoopConfiguration.set("fs.AbstractFileSystem.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")
-    sc.hadoopConfiguration.set("fs.gs.auth.service.account.email", AppConf.getConfig("storage.key.config"))
-    sc.hadoopConfiguration.set("fs.gs.auth.service.account.private.key", AppConf.getConfig("storage.secret.config"))
-//    sc.hadoopConfiguration.set("fs.gs.auth.service.account.private.key.id", AppConf.getConfig("storage.secret.config"))
+    sc.hadoopConfiguration.set("spark.hadoop.google.cloud.auth.service.account.enable", "true")
+    sc.hadoopConfiguration.set("spark.hadoop.google.cloud.auth.service.account.json.keyfile", AppConf.getConfig(""))
+
   }
 
   def setS3Conf(sc: SparkContext) = {
