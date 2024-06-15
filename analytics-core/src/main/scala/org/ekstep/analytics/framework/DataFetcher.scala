@@ -55,7 +55,6 @@ object DataFetcher {
         if (null == keys || keys.length == 0) {
             return sc.parallelize(Seq[T](), JobContext.parallelization);
         }
-        JobLogger.log("Found Keys -" + keys.mkString(", "), None, INFO)
         JobLogger.log("Deserializing Input Data", None, INFO);
         val filteredKeys = search.queries.get.map{q =>
             getFilteredKeys(q, keys, q.partitions)
