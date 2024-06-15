@@ -156,7 +156,7 @@ object CommonUtil {
     sc.hadoopConfiguration.set("fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem")
     sc.hadoopConfiguration.set("fs.AbstractFileSystem.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")
     sc.hadoopConfiguration.set("spark.hadoop.google.cloud.auth.service.account.enable", "true")
-    sc.hadoopConfiguration.set("spark.hadoop.google.cloud.auth.service.account.json.keyfile", AppConf.getConfig(""))
+    sc.hadoopConfiguration.set("spark.hadoop.google.cloud.auth.service.account.json.keyfile", AppConf.getConfig("storage.secret.configfile"))
 
   }
 
