@@ -93,6 +93,8 @@ object CommonUtil {
     val sc = new SparkContext(conf)
     setS3Conf(sc)
     setAzureConf(sc)
+    setGcloudConf(sc)
+
     JobLogger.log("Spark Context initialized")
     sc
   }
@@ -144,8 +146,18 @@ object CommonUtil {
     val sparkSession = SparkSession.builder().appName("sunbird-analytics").config(conf).getOrCreate()
     setS3Conf(sparkSession.sparkContext)
     setAzureConf(sparkSession.sparkContext)
-    JobLogger.log("SparkSession initialized")
+    setGcloudConf(sparkSession.sparkContext)
+
+    JobLogger.log("SparkSession initialized with gcloud conf", None, INFO)
     sparkSession
+  }
+
+  def setGcloudConf(sc: SparkContext) = {
+    sc.hadoopConfiguration.set("fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem")
+    sc.hadoopConfiguration.set("fs.AbstractFileSystem.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")
+    sc.hadoopConfiguration.set("fs.gs.auth.service.account.email", AppConf.getConfig("storage.key.config"))
+    sc.hadoopConfiguration.set("fs.gs.auth.service.account.private.key", AppConf.getConfig("storage.secret.config"))
+//    sc.hadoopConfiguration.set("fs.gs.auth.service.account.private.key.id", AppConf.getConfig("storage.secret.config"))
   }
 
   def setS3Conf(sc: SparkContext) = {
