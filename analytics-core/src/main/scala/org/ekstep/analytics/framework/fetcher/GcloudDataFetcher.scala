@@ -29,7 +29,11 @@ object GcloudDataFetcher {
     println("Got query" + query)
     println("Got storage Service" + storageService)
     val keys = storageService.searchObjects(getBucket(query.bucket), getPrefix(query.prefix), query.startDate, query.endDate, query.delta, query.datePattern.getOrElse("yyyy-MM-dd"))
-    storageService.getPaths(getBucket(query.bucket), keys).toArray
+    println("found keys" + keys)
+
+    val paths = storageService.getPaths(getBucket(query.bucket), keys).toArray
+    println("found paths" + paths)
+    paths
   }
 
   private def getBucket(bucket: Option[String]): String = {
