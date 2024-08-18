@@ -59,6 +59,7 @@ class FrameworkContext {
   }
 
   def getStorageService(storageType: String, storageKey: String, storageSecret: String): BaseStorageService = {
+    println("FC.getStorageService:" + storageType + ":" + storageKey +  ":" + storageSecret)
     if("local".equals(storageType)) {
       return null;
     }

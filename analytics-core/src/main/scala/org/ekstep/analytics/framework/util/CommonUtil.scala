@@ -57,6 +57,7 @@ object CommonUtil {
                       sparkElasticsearchConnectionHost: Option[AnyRef] = None, sparkRedisConnectionHost: Option[AnyRef] = None,
                       sparkRedisDB: Option[AnyRef] = None, sparkRedisPort: Option[AnyRef] = Option("6379")): SparkContext = {
     JobLogger.log("Initializing Spark Context")
+    println("getSparkContext called")
     val conf = new SparkConf().setAppName(appName).set("spark.default.parallelism", parallelization.toString)
       .set("spark.driver.memory", AppConf.getConfig("spark.driver_memory"))
       .set("spark.memory.fraction", AppConf.getConfig("spark.memory_fraction"))
@@ -94,7 +95,7 @@ object CommonUtil {
     setS3Conf(sc)
     setAzureConf(sc)
     setGcloudConf(sc)
-
+    println("Spark Context Initialized")
     JobLogger.log("Spark Context initialized")
     sc
   }
