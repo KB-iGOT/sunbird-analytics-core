@@ -92,8 +92,8 @@ object CommonUtil {
     }
 
     val sc = new SparkContext(conf)
-//    setS3Conf(sc)
-//    setAzureConf(sc)
+    setS3Conf(sc)
+    setAzureConf(sc)
     setGcloudConf(sc)
     println("Spark Context Initialized")
     JobLogger.log("Spark Context initialized")
@@ -145,8 +145,8 @@ object CommonUtil {
     }
 
     val sparkSession = SparkSession.builder().appName("sunbird-analytics").config(conf).getOrCreate()
-//    setS3Conf(sparkSession.sparkContext)
-//    setAzureConf(sparkSession.sparkContext)
+    setS3Conf(sparkSession.sparkContext)
+    setAzureConf(sparkSession.sparkContext)
     setGcloudConf(sparkSession.sparkContext)
 
     JobLogger.log("SparkSession initialized with gcloud conf", None, INFO)

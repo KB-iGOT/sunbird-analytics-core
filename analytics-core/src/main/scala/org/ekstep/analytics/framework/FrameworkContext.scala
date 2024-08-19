@@ -44,15 +44,12 @@ class FrameworkContext {
   def newStorageService(storageType: String, storageKey: String, storageSecret: String): BaseStorageService = {
     val storageEndpoint = AppConf.getConfig("cloud_storage_endpoint_with_protocol")
     if ("s3".equalsIgnoreCase(storageType) && !"".equalsIgnoreCase(storageEndpoint)) {
-      println("not s3, so this shouldnt print")
       new CustomS3StorageService(
         org.sunbird.cloud.storage.factory.StorageConfig(
           storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret), Option(storageEndpoint)
         )
       )
     } else {
-      println("creating a storage service-" + storageType + ":" + storageKey + ":" + AppConf.getConfig(storageKey) + ":" +storageSecret + ":" + AppConf.getConfig(storageSecret))
-
       StorageServiceFactory.getStorageService(
         org.sunbird.cloud.storage.factory.StorageConfig(
           storageType, AppConf.getConfig(storageKey), AppConf.getConfig(storageSecret)
@@ -67,7 +64,6 @@ class FrameworkContext {
       return null;
     }
     if (!storageContainers.contains(storageType + "|" + storageKey)) {
-      println("FC.getStorageService_notcached:" + storageType + ":" + storageKey +  ":" + storageSecret)
       storageContainers.put(storageType + "|" + storageKey, newStorageService(storageType, storageKey, storageSecret))
     }
     storageContainers.get(storageType + "|" + storageKey).get
